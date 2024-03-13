@@ -5,7 +5,9 @@ import br.com.ramonsilva.springsecurityjwt.repository.UserRespository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRespository userRespository;
@@ -16,7 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRespository.findByUsername(username)
-                .map(UserAuthenticated::new)
+                .map(user -> new UserAuthenticated(user))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

@@ -1,10 +1,17 @@
 package br.com.ramonsilva.springsecurityjwt.service;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
-    public String authenticate() {
-        return "token";
+
+    private JwtService jwtService;
+
+    public AuthenticationService(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
+    public String authenticate(Authentication authentication) {
+        return jwtService.generateToken(authentication);
     }
 }
